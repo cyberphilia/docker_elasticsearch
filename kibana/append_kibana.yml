@@ -1,0 +1,53 @@
+
+
+xpack.security.encryptionKey: "something_at_least_32_characters"
+xpack.fleet.agents.enabled: true
+xpack.fleet.fleetServerHosts:
+  - id: "preconfigured-fleet-hosts"
+    name: "Preconfigured Fleet Hosts"
+    host_urls: ["https://fleet:8220"]
+    is_default: true
+xpack.fleet.outputs:
+  - id: default
+    name: default
+    type: elasticsearch
+    hosts: ["https://es01:9200"]
+    is_default: true
+    is_default_monitoring: true
+
+xpack.fleet.packages:
+  - name: fleet_server
+    version: latest
+  - name: system
+    version: latest
+  - name: elastic_agent
+    version: latest
+xpack.fleet.agentPolicies:
+  - name: Fleet Server Policy
+    id: fleet-server-policy
+    namespace: default
+    monitoring_enabled:
+      - logs
+      - metrics
+    package_policies:
+      - name: Preconfigured Fleet 1
+        id: preconfigured-fleet-1
+        package:
+          name: fleet_server
+      - name: Preconfigured System 1
+        id: preconfigured-system-1
+        package:
+          name: system
+          
+  - name: Agent Policy
+    id: agent-policy
+    namespace: default
+    monitoring_enabled:
+      - logs
+      - metrics
+    package_policies:
+      - name: Preconfigured System 2
+        id: preconfigured-agent-system
+        package:
+          name: system
+
